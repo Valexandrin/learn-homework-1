@@ -12,13 +12,18 @@
   бота отвечать, в каком созвездии сегодня находится планета.
 
 """
-import logging
 
+import logging
+import ephem
+import settings
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
-logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO,
-                    filename='bot.log')
+logging.basicConfig(
+    format='%(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+
+logger = logging.getLogger(__name__)
 
 
 PROXY = {
@@ -32,21 +37,37 @@ PROXY = {
 
 def greet_user(update, context):
     text = 'Вызван /start'
-    print(text)
+    logger.info(text)
     update.message.reply_text(text)
+
+
+def ask_planet_name(update, context):
+    user_text = update.message.text.split()
+    current_date = update.message.date
+    logger.info(user_text)
+    for word in user_text:        
+        word = word.capitalize()        
+        planet = getattr(ephem, word)
+        if not planet:
+            logger.info('Planet %s not found', word)
+            return
+        planet_info = planet(current_date)
+        constellation = ephem.constellation(planet_info)
+        update.message.reply_text(constellation)              
 
 
 def talk_to_me(update, context):
     user_text = update.message.text
-    print(user_text)
-    update.message.reply_text(text)
+    logger.info(user_text)
+    update.message.reply_text(user_text)
 
 
 def main():
-    mybot = Updater("КЛЮЧ, КОТОРЫЙ НАМ ВЫДАЛ BotFather", request_kwargs=PROXY, use_context=True)
-
+    mybot = Updater(settings.API_KEY, use_context=True)
+    
     dp = mybot.dispatcher
     dp.add_handler(CommandHandler("start", greet_user))
+    dp.add_handler(CommandHandler("planet", ask_planet_name))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
 
     mybot.start_polling()
