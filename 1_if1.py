@@ -19,20 +19,23 @@ def get_action(user_age):
     Эта функция вызывается автоматически при запуске скрипта в консоли
     В ней надо заменить pass на ваш код
     """
-    if user_age >= 0:
-        if user_age <= 7:
-            return "Вы ходите в детский сад"
-        elif user_age <= 17:
-            return "Вы учитесь в школе"
-        elif user_age <= 22:
-            return "Вы учитесь в ВУЗе"
-        elif user_age <= 60:
-            return "Вы работаете"
-        else:            
-            return "Вы пенсионер"
-    else:
-        return "Вы еще не родились"
+    if user_age < 0:
+        return 'Вы еще не родились'
 
+    if user_age < 7:
+        return 'Вы ходите в детский сад'
+
+    if user_age < 17:
+        return 'Вы учитесь в школе'
+
+    if user_age < 22:
+        return 'Вы учитесь в ВУЗе'    
+
+    if user_age < 60:
+        return 'Вы работаете'                
+
+    return 'Вы пенсионер'  
+        
 
 def main():
     user_age = int(input("Введите Ваш возраст: "))

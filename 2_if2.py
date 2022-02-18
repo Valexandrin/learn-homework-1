@@ -15,23 +15,19 @@
 
 """
 
-def comparison(string_1, string_2):
-    if type(string_1) is not str and type(string_2) is not str:
+def comparison(first, second):
+    if not isinstance(first, str) and not isinstance(second, str):
         return 0
-    else:
-        string_1 = str(string_1)
-        string_2 = str(string_2)
-    if string_1 is string_2:
-        return 1
-    else:
-        if len(string_1) > len(string_2):
-            if string_2 != "learn":
-                return 2
-            else:
-                return 2, 3
-        elif string_2 == "learn":
-            return 3
-                          
+
+    if first == second:
+        return 1    
+
+    if len(first) > len(second):        
+        return 2         
+        
+    if second == "learn":
+        return 3    
+                        
 
 def main():
     """

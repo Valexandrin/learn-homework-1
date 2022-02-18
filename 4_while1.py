@@ -10,19 +10,15 @@
 """
 
 
-from ast import While
-
-
 def hello_user():
     """
     Замените pass на ваш код
     """
 
-    while True:
+    user_say = None
+    while user_say != 'Хорошо':
         user_say = input('Как дела? ')
-        if user_say == 'Хорошо':
-            break
-
+        
     
 if __name__ == "__main__":
     hello_user()

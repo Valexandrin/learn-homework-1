@@ -27,8 +27,13 @@ questions_and_answers = {
 def ask_user(answers_dict):    
     while True:
         user_asks = input("Задай вопрос: ")
+        answers = questions_and_answers.get(user_asks)
+        if answers:
+            print(choice(answers))
+        '''
         if user_asks in answers_dict:            
             print(choice(answers_dict[user_asks]))
+        '''
 
     
 if __name__ == "__main__":
